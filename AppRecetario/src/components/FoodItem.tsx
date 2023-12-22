@@ -10,19 +10,25 @@ const FoodItem: React.FC<FoodItemProps> = ({ image, title }) => {
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={image} />
-      <Text>{title}</Text>
+      <Text style={styles.title}>{title}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container:{
-    padding: 5,
+    paddingHorizontal: 15,
   },
   image: {
-    width: 85,
-    height: 85,
+    width: 105,
+    height: 105,
     borderRadius: 5,
+  },
+  title: {
+    color: '#FFF',
+    fontSize: 14,
+    paddingVertical: 5,
+    width: 95,
   },
 });
 
