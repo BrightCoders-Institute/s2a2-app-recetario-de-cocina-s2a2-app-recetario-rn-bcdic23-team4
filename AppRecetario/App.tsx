@@ -9,6 +9,7 @@ import {
 import FoodItem from './src/components/FoodItem';
 import comidas from './src/assets/database/menu.ts';
 
+
 export const App = () => {
 
   const [text, onChangeText] = React.useState('');
@@ -37,7 +38,7 @@ export const App = () => {
         <ScrollView horizontal>
         {comidas.map(item => (
           item.category === 'Recent' &&
-        <FoodItem key={item.id} title={item.title} image={item.image}/>
+        <FoodItem key={item.id} title={item.title} image={item.image} recent />
         ))}
         </ScrollView>
       </View>
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     backgroundColor: '#343435',
     borderColor:'#2e2e2f',
-    //(<-- Eliminar)paddingRight: 30, // Espacio a la derecha para el icono
+    color: 'white',
   },
   foodContainer: {
    display: 'flex',

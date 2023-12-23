@@ -9,7 +9,7 @@ const comidas = [
             '500g ground beef',
             '1 onion, finely chopped',
             '2 cloves garlic, minced',
-            '400g canned tomatoes'
+            '400g canned tomatoes',
         ],
     },
     {
