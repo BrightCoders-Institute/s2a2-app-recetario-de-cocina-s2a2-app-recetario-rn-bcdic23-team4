@@ -1,18 +1,18 @@
 import React from 'react';
 import {View, Text, StyleSheet, ImageSourcePropType, Image, TouchableOpacity} from 'react-native';
 
+
 interface FoodItemProps {
+  id?: Number;
   image?: ImageSourcePropType;
   title?: string;
   recent?: boolean;
 }
 
-const FoodItem: React.FC<FoodItemProps> = ({ image, title, recent }) => {
-
-
-
+const FoodItem: React.FC<FoodItemProps> = ({ id ,image, title, recent }) => {
   return (
-    <TouchableOpacity>
+    //@ts-ignore
+  <TouchableOpacity >
     <View style={styles.container}>
       {recent === true ? (<Image style={styles.recentImage} source={image} />) : (<Image style={styles.image} source={image} />)}
       <Text style={styles.title}>{title}</Text>
