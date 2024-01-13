@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, ImageSourcePropType, Image, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, ImageSourcePropType, Image} from 'react-native';
 
 
 interface FoodItemProps {
@@ -9,15 +9,13 @@ interface FoodItemProps {
   recent?: boolean;
 }
 
-const FoodItem: React.FC<FoodItemProps> = ({ id ,image, title, recent }) => {
+const FoodItem: React.FC<FoodItemProps> = ({ image, title, recent }) => {
   return (
     //@ts-ignore
-  <TouchableOpacity >
     <View style={styles.container}>
       {recent === true ? (<Image style={styles.recentImage} source={image} />) : (<Image style={styles.image} source={image} />)}
       <Text style={styles.title}>{title}</Text>
     </View>
-    </TouchableOpacity>
   );
 };
 

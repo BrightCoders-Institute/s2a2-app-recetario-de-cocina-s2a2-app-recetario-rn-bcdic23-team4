@@ -1,102 +1,119 @@
-import React from 'react';
-import { Image, Text, View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import comidas from '../assets/database/menu.ts';
 
-
-
 const TestScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const selectedFoodId = route.params?.selectedFoodId;
+  const [isRecent, setIsRecent] = useState(true);
+  const selectedFood = comidas.find(item => item.id === selectedFoodId);
 
-    const navigation = useNavigation();
-    const  id = 3;
+  if (!selectedFood) {
+    navigation.goBack();
+    return null;
+  }
 
-    const selectedFood = comidas.find(item => item.id === id);
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
+  const handleChangeCategory = () => {
+    setIsRecent(!isRecent);
+
+    const updatedComidasList = comidas.map((item) => {
+      if (item.id === selectedFoodId) {
+        return { ...item, category: isRecent ? 'Trending' : 'Recent' };
+      }
+      return item;
+    });
+
+    navigation.goBack();
+  };
 
   return (
-    <View style={styles.container} key={selectedFood?.id}>
-        {/* @ts-ignore */}
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Home')}>
-            <View>
-                <Text style={styles.TextButton}>X</Text>
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
+        <View>
+          <Text style={styles.TextButton}>X</Text>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.categoryButton} onPress={handleChangeCategory}>
+        <View>
+          <Text style={styles.TextButton}>-</Text>
+        </View>
+      </TouchableOpacity>
+
+      <Image style={styles.img} source={selectedFood.image} />
+
+      <View style={styles.titleContainer}>
+        <Text style={styles.label}>{selectedFood.category}</Text>
+        <Text style={styles.foodName}>{selectedFood.title}</Text>
+      </View>
+
+      <View style={styles.ingredientsContainer}>
+        <Text style={{ color: '#FFF', fontSize: 20 }}>Ingredients</Text>
+        <Text style={{ color: '#FFF', fontSize: 18 }}>for 3 servings</Text>
+        <ScrollView style={{ padding: 15 }}>
+          {selectedFood.ingredients.map((item, index) => (
+            <View style={styles.ingredientsInnerContainer} key={index}>
+              <Text style={styles.ingredientsText}>{item}</Text>
             </View>
-        </TouchableOpacity>
-    <Image style={styles.img} source={selectedFood?.image} />
-   <View style={styles.imgcontainer} />
-    <View style={styles.titleContainer}>
-     <Text style={styles.label}>{selectedFood?.category}</Text>
-     <Text style={styles.foodName}>{selectedFood?.title}</Text>
-    </View>
-    <View style={styles.ingredientsContainer}>
-        <Text style={{color: '#FFF', fontSize: 20}}>Ingredients</Text>
-        <Text style={{color: '#FFF',  fontSize: 18}}>for 3 servings</Text>
-        <ScrollView style={{padding: 15}}>
-            {selectedFood?.ingredients.map(item => (
-                <View style={styles.ingredientsInnerContainer}>
-                    <Text style={styles.ingredientsText}>{item}</Text>
-                </View>
-            ))}
+          ))}
         </ScrollView>
+      </View>
     </View>
-</View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        width: '100%',
-        height: '100%',
-        backgroundColor: '#282828',
-    },
-    img: {
-        width: '100%',
-        height: '50%',
-    },
-    imgcontainer: {
-        width: '100%',
-        height: '50%',
-        backgroundColor: '#282828',
-        opacity: 0.6,
-        position: 'absolute',
-        zIndex: 0,
-        top: 0,
-    },
-    label: {
-        color: '#FFF',
-        fontSize: 20,
-        textTransform: 'uppercase',
-    },
-    foodName: {
-        color: '#FFF',
-        fontSize: 28,
-    },
-    titleContainer: {
-        padding: 15,
-        marginTop: -100,
-    },
-    ingredientsContainer: {
-        padding: 15,
-    },
-    backButton: {
-        position: 'absolute',
-        top: 0,
-        zIndex: 10,
-        margin: 15,
-    },
-    ingredientsInnerContainer: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#FFF',
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    ingredientsText: {
-        color: '#FFF',
-        marginTop: 5,
-        padding: 15,
-    },
-    TextButton:{
-        color: 'white',
-        fontSize: 23,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#282828',
+  },
+  backButton: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    zIndex: 1,
+  },
+  categoryButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    zIndex: 1,
+  },
+  TextButton: {
+    color: '#FFF',
+    fontSize: 18,
+  },
+  img: {
+    width: '100%',
+    height: '50%',
+  },
+  titleContainer: {
+    padding: 15,
+  },
+  label: {
+    color: '#FFF',
+    fontSize: 20,
+  },
+  foodName: {
+    color: '#FFF',
+    fontSize: 28,
+  },
+  ingredientsContainer: {
+    padding: 15,
+  },
+  ingredientsInnerContainer: {
+    marginBottom: 10,
+  },
+  ingredientsText: {
+    color: '#FFF',
+    fontSize: 18,
+  },
 });
 
 export default TestScreen;
